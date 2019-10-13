@@ -324,7 +324,7 @@ function list_all(id){
 
 function user_model(id){
   let profile;
-  profile = "../avatars/" + id + ".png";
+  profile = "../images/avatars/" + id + ".png";
   return profile;
 }
 // export

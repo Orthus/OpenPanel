@@ -1,5 +1,5 @@
 {
-	"IP_Address": "localhost",
+	"IP_Address": "0.0.0.0",
 	"Port": 3113,
 	"DB_Address": "localhost",
 	"DB_Port": 28015,
