@@ -1,0 +1,7 @@
+{
+	"IP_Address": "localhost",
+	"Port": 3113,
+	"DB_Address": "localhost",
+	"DB_Port": 28015,
+	"DB_Name": "openpanel"
+}

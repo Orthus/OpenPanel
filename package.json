@@ -1,0 +1,39 @@
+{
+  "name": "openpanel",
+  "version": "0.0.1",
+  "description": "Open Source Single User Control Panel",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git"
+  },
+  "author": "Zachary \"Orthusaku\" Daltorio",
+  "license": "MIT",
+  "bugs": {},
+  "dependencies": {
+    "bcrypt": "^3.0.6",
+    "bcrypt-nodejs": "0.0.3",
+    "body-parser": "^1.19.0",
+    "bootstrap": "^4.3.1",
+    "busboy": "^0.3.1",
+    "config": "^3.2.2",
+    "connect-flash": "^0.1.1",
+    "cookie-parser": "^1.4.4",
+    "ejs": "^2.6.2",
+    "express": "^4.16.3",
+    "express-fileupload": "^1.1.6-alpha.5",
+    "express-session": "^1.16.2",
+    "jquery": "^3.4.1",
+    "morgan": "^1.9.1",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
+    "popper.js": "^1.15.0",
+    "rethinkdb": "^2.3.3",
+    "serve-favicon": "^2.5.0",
+    "vue": "^2.5.16",
+    "vue-cli": "^2.9.6"
+  }
+}

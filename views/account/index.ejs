@@ -1,0 +1,46 @@
+
+<div class="index">
+	<br>
+	<p>Welcome to the account page. Here you can change your account settings 
+	<br>
+	<br>Hey <%= username %>, What would you like to change today?</p>
+        <div class="row">
+        <div class="account_left">
+	<label>Username:</label>
+        <br>
+        <br>
+        <input type="text" name="newusername" placeholder=<%= username %> />
+        <br>
+        <br>
+        <label>Email:</label>
+        <br>
+        <br>
+        <input type="email" name="newemail" placeholder="" />
+        <br>
+        <br>
+        <label>Password :</label>
+        <br>
+        <br>
+        <input type="password" name="newpassword"/>
+        <br>
+        <br>
+        <label>Confirm Password :</label>
+        <br>
+        <br>
+        <input type="password" name="newpassword"/>
+        <br>
+        <br>
+        <input type="submit" value="Submit"/>
+        <br>
+        <br>
+</div>
+<div class="account_right">
+		<label style="text-align: center">Profile Image</label>
+		<br>
+		<img src=<%= profile %> alt="Logo" height=15% width=15% align=center style="margin-top: 5%">
+		<form action="fileupload" method="post" enctype="multipart/form-data">
+		<input type="file" name="filetoupload"><br>
+		<input type="submit">
+		</form>
+
+</div>

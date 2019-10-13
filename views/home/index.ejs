@@ -1,0 +1,15 @@
+	<div class="index">
+		<br>
+		<p>Welcome to OpenPanel. The open source server hosting platform.</p>
+		<%if(login){%>
+		<p>Hey <%= username %> </p>
+		<p> <%= id %>
+		<%}else{%>
+		<p>You don't appear to be logged in.</p>
+		<p>Please Login or Register</p>
+		<a href="login"><button>Login</button></a>
+		<a href="/register"><button>Register</button></a>
+		<%}%>
+		<br>
+		<br>
+	</div>

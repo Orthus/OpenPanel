@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="ISO-8859-1">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<title>Openpanel</title>
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+		<link href="/css/style.css" rel="stylesheet" type="text/css">
+		<link rel="shortcut icon" href="../images/favicon.png" />
+		<link rel="stylesheet" href="../icofont/icofont.min.css">
+		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>	
+	</head>
+
+	<body class="main">
+		<div class="banner">
+		<img src="../images/logo.png" alt="Logo" height=12% width=12% align=left float=left style="margin-top: .7% ;margin-left: 15%">
+		<%if(login){%>
+		<a href="/account"><img src= "<%= profile %>" alt="Logo" height=5% width=5% align=right float=right style="margin-right: 15%"></a>
+		<a href="/logout" type="logout"><i class="icofont-logout"></i></a>
+		<%}else{%>
+		<a href="/login" type="login"><i class="icofont-login"></i></a>
+
+		<%}%>
+		</div>
+		<div class="topnav">
+		<h3>
+		<a name="home"<%if(active=="Home"){%>class="active"<%}%> href="/" type="navbar">Home</a>
+		<a name="dashboard"<%if(active=="Dashboard"){%>class="active"<%}%> href="/dashboard" type="navbar">Dashboard</a>
+		<a name="account"<%if(active=="Account"){%>class="active"<%}%> href="/account" type="navbar">Account</a>
+		<a name="settings"<%if(active=="Settings"){%>class="active"<%}%> href="/settings" type="navbar">Settings</a>
+		<a name="about"<%if(active=="About"){%>class="active"<%}%> href="/about" type="navbar">About</a>
+
+		<form action="/TMR/" method="get">
+		<button type="submit" name="submit"><i class="icofont-search-2"></i></button>
+		<input type="text" name="search" placeholder="Search">	
+		</form>
+		</h3>
+		</div>
+		<font face="arial">
+		<div class="content">
+		<div class="data">
+		<%- include(path + '/' + content); %>
+		</div>
+		</div>
+		<div class="footer">
+			<a href="">Github</a>
+		</div>
+	</font>
+	</body>
+</html>

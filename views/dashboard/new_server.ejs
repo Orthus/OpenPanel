@@ -1,0 +1,76 @@
+<div class="row">
+	<div class="labels">
+		<label>
+			Server Name:
+			<br>
+			Game:
+			<br>
+			IP Address:
+			<br>
+			Hostname:
+			<br>
+			Slots:
+			<br>
+			RAM:
+			<br>
+			Storage:
+			<br>
+			Backup:
+		</label>
+	</div>
+	<div class="servervalues">
+		<form action="/create_Server" method="post">
+			<input type="text" class="server_input" name="ServerName">
+			<br>
+			<select id="Game" class="server_input" name="Game">
+				<option value="7daystodie" selected="N/A">7 Days to Die</option>
+				<option value="alienswarm">Alien Swarm</option>
+				<option value="ark">Ark</option>
+				<option value="arma2">Arma 2</option>
+				<option value="arma3">Arma 3</option>
+				<option value="avorion">Avorion</option>
+				<option value="brink">Brink</option>
+				<option value="canonexiles">Canon Exiles</option>
+				<option value="csgo">CS:GO</option>
+				<option value="css">CS:Source</option>
+				<option value="dontstarvetogether">Don't Starve Together</option>
+				<option value="eco">ECO</option>
+				<option value="factorio">Factorio</option>
+				<option value="gmod">Garry's Mod</option>
+				<option value="hl2dm">Half Life 2: Deathmatch</option>
+				<option value="insurgency">Insurgency</option>
+				<option value="insurgencymodern">Insurgency: Modern</option>
+				<option value="insurgencysandstorm">Insurgency: Sandstorm</option>
+				<option value="killingfloor">Killing Floor</option>
+				<option value="killingfloor2">Killing Floor 2</option>
+				<option value="l4d">Left 4 Dead</option>
+				<option value="l4d2">Left 4 Dead 2</option>
+				<option value="minecraft">Minecraft</option>
+				<option value="pixark">Pixark</option>
+				<option value="rust">Rust</option>
+				<option value="starbound">Starbound</option>
+				<option value="staxel">Staxel</option>
+				<option value="terraria">Terraria</option>
+				<option value="tf2">Team Fortress 2</option>
+				<option value="unturned">Unturned</option>
+			</select>
+			<br>
+			<input type="text" class="server_input" name="IP_Address" Placeholder="192.168.0.42">
+			<br>
+			<input type="text" class="server_input" name="Hostname" Placeholder="server.local.lan">
+			<br>
+			<input type="text" class="server_input" name="Slots" Placeholder="24">
+			<br>
+			<input type="text" class="server_input" name="RAM_Value" Placeholder="GB">
+			
+			<br>
+			<input type="text" class="server_input" name="Storage_Value" Placeholder="GB">
+			
+			<br>
+			<input type="text" class="server_input" name="Backup_Value" Placeholder="GB">
+			
+	</div>
+	<div class="break"></div>
+		<input type="submit" class="create-button" value="Create Server">	
+	</form>
+</div>

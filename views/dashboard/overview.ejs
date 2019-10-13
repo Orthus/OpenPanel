@@ -1,0 +1,51 @@
+<div class="instance_container">
+
+    <div class="box">
+        <% for(var i=0; i < result.length; i++) { %>
+        	<a href ="<%= '/Server/' + result[i].id %>">
+   			<div class="instance">
+   				<div class=instance_left style="background: #666">
+   					<img src="<%= '../images/game_icons/' + result[i].game + '.png' %>" alt="<%= i %>" height=100% width=100% align=left float=left style="margin-right: 15%">
+
+   				</div>
+				<div class=instance_right id= "<%=result[i].id %>" style="background: #0C0 ; color: #000">
+				<script>
+					if("<%=result[i].status %>" == "ONLINE"){
+						document.getElementById("<%=result[i].id %>").style.background = "#0C0";
+					}else if("<%=result[i].status %>" == "STARTING"){
+						document.getElementById("<%=result[i].id %>").style.background = "#CC0";
+					}else if("<%=result[i].status %>" == "OFFLINE"){
+						document.getElementById("<%=result[i].id %>").style.background = "#C00";
+						document.getElementById("<%=result[i].id %>").style.color = "#EEE";
+					}else{
+						document.getElementById("<%=result[i].id %>").style.background = "#000";
+						document.getElementById("<%=result[i].id %>").style.color = "#FFF";
+					}
+				</script>
+        			<p>
+        				Status: <%= result[i].status %>
+        			</p>
+        			<p>
+        				Name: <%= result[i].name %>
+        			</p>
+        			<p>
+        				Host:  <%= result[i].hostname %>
+        			</p>
+        			<p>
+        				IP: <%= result[i].ip %>
+        			</p>
+        			<p>
+        				CPU: 0%
+        				RAM: <%= result[i].ram %>
+        				Slots: <%= result[i].slots %>
+        			</p>
+    				<p>
+    				Storage: <%= result[i].storage %>
+        			Backup: <%= result[i].backup %>
+        			</p>
+        		</div>
+	        </div>
+	    </a>
+		<% } %>
+    </div>
+</div>
