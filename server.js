@@ -154,10 +154,12 @@ app.get('/dashboard/:page', loggedIn, function (req, res) {
 //Instance Page
 app.get('/Server/:Server_ID', loggedIn, function (req, res) {
   if(req.isAuthenticated()){
-  page_processer(req.user.id,req.isAuthenticated(), "Dashboard", "server_page", req.params.page, "server", req.params.page, req, res)
+  console.log(req.params.Server_ID);
+  page_processer(req.user.id,req.isAuthenticated(), "Dashboard", "server_page", "server_page", "server", req.params.Server_ID, req, res)
   }else{
-  page_processer(null,req.isAuthenticated(), "Dashboard", "server_page", req.params.page, "server", req.params.page, req, res)
+  page_processer(null,req.isAuthenticated(), "Dashboard", "server_page", "server_page", "server", req.params.Server_ID, req, res)
 }});
+//userid ,auth , active, passed_content, passed_page, passed_path, serverid, req, res
 // logout
 app.get('/logout', function(req, res){
   req.logout();
@@ -230,15 +232,17 @@ function page_processer(userid ,auth , active, passed_content, passed_page, pass
     let user_obj = JSON.parse(data);
     let list = list_servers(req.user.id).then(data => {
     let Filtered_data = data;
+    console.log(user_obj.theme);
     res.render('template', {authed: auth, content: passed_content, page: passed_page, path: passed_path, user: user_obj, result: Filtered_data, active: active});
     }).catch(err => {
   });})}
   else{
     let db_object;
     let stringed_object;
-    db_object = {theme:"/css/dark.css"};
+    db_object = {theme:"/css/light.css"};
     stringed_object = JSON.parse(JSON.stringify(db_object, null, 2))
     let id = "null";
+    console.log(stringed_object.theme);
     let Filtered_data = "null";
     let displayname= "null";
     let profile = "../images/avatars/" + id + ".png";
@@ -336,7 +340,7 @@ function adduser(newusername, newpassword) {
             username: newusername,
             password: bcrypt.hashSync(newpassword),
             roll: 0,
-            theme: "dark"
+            theme: "/css/light.css"
           }).run(connection, function(err, res){});
 }
 

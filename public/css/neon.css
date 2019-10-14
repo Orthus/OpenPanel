@@ -1,18 +1,22 @@
 body {
+  --primary-color: #fb33db;
+  --secondary-color: #7fff00;
+  --accent-color:#0540FC;
   width: 100vw;
   margin: 0 auto;
   font-family: 'Open Sans', sans-serif;
-  background-color: #272525;
+  background-color: var(--primary-color);
+
 }
 .img{
   margin-right: 15%;
 }
 
 .form{
-  background-color: #fff;
+  background-color: #ccc;
 }
 .filters{
-  background-color: #fff;
+  background-color: #ccc;
   float: left;
   margin-left: 25%;
 }
@@ -32,14 +36,14 @@ body {
   width: 100%;
   height: 600%;
   display: inline-block;
-  background-color: #666666;
+  background-color: var(--primary-color);
   font-size: 1.5vw;
   margin-bottom: 2vw;
 }
 .banner{
   align-content: left;
   overflow: hidden;
-  background-color: #575555;
+  background-color: var(--secondary-color);
 }
 
 .banner a[type=logout] {
@@ -50,7 +54,7 @@ body {
   margin-bottom: 0vw;
   margin-right: .1vw;
   font-size: 2.25vw;
-  background-color: #575555;
+  background-color: var(--secondary-color);
   text-decoration: none;
   color: #000;
 }
@@ -62,7 +66,7 @@ body {
   margin-bottom: .5vw;
   margin-right: 15vw;
   font-size: 2.25vw;
-  background-color: #575555;
+  background-color: var(--secondary-color);
   text-decoration: none;
   color: #000;
 }
@@ -71,13 +75,15 @@ body {
   margin-left: 15vw;
   margin-right: 15vw;
   overflow: hidden;
-  background-color: #333;
+  background-color: var(--accent-color);
+  color: #000;
+
 }
 
 /* Style the links inside the navigation bar */
 .topnav a[type=navbar] {
   float: left;
-  color: #f2f2f2;
+  color: #000;
   text-align: right;
   padding-top: 0vw;
   padding-bottom: 0vw;
@@ -114,7 +120,7 @@ body {
   color: #ff0000;
 }
 .topnav a:hover[name=dashboard] {
-  color: #ffff00;
+  color: var(--secondary-color)f00;
 }
 .topnav a:hover[name=account] {
   color: #ff5500;
@@ -133,7 +139,7 @@ body {
   color: #ff0000;
 }
 .topnav a.active[name=dashboard] {
-  color: #ffff00;
+  color: var(--secondary-color)f00;
 }
 .topnav a.active[name=account] {
   color: #ff5500;
@@ -173,7 +179,7 @@ margin-right: 20vw;
 .data{
   margin-left: 15vw;
   margin-right: 15vw;
-  background-color: #666666;
+  background-color: var(--secondary-color);
   font-size: 1vw;
 }
 
@@ -187,12 +193,12 @@ margin-right: 20vw;
 .data_left {
   float: left;
   width: 12vw;
-  background-color: #333333;
+  background-color: var(--accent-color);
 }
 .data_left a{
   float: left;
-  color: #f2f2f2;
-  background-color: #333333;
+  color: #000;
+  background-color: var(--accent-color);
   text-align: justify;
   padding-left: 0vw;
   padding-top: .5vw ;
@@ -203,7 +209,7 @@ margin-right: 20vw;
   margin-left: 2vw;
 }
 .data_left a:hover {
-  color: #ffff00;
+  color: #555500;
 }
 
 .labels{
@@ -255,11 +261,12 @@ margin-right: 20vw;
   height: 7.5vw;
   font-size: .75vw;
   border-radius: .25vw;
-  border: .3vw solid #333;
+  border: .3vw solid var(--accent-color);
 }
 .instance_right{
   width: 12vw;
   height: 7vw;
+  background-color: var(--secondary-color);
 }
 
 .instance_left{

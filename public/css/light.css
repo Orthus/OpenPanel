@@ -1,18 +1,23 @@
 body {
+  --primary-color: #ddd;
+  --secondary-color: #fff;
+  --sidebar-color: #0aa;
+  --accent-color:#0ff;
   width: 100vw;
   margin: 0 auto;
   font-family: 'Open Sans', sans-serif;
-  background-color: #DEDEDE;
+  background-color: var(--primary-color);
+
 }
 .img{
   margin-right: 15%;
 }
 
 .form{
-  background-color: #DDD;
+  background-color: var(--secondary-color);
 }
 .filters{
-  background-color: #DDD;
+  background-color: var(--secondary-color);
   float: left;
   margin-left: 25%;
 }
@@ -32,14 +37,14 @@ body {
   width: 100%;
   height: 600%;
   display: inline-block;
-  background-color: #DDD;
+  background-color: var(--primary-color);
   font-size: 1.5vw;
   margin-bottom: 2vw;
 }
 .banner{
   align-content: left;
   overflow: hidden;
-  background-color: #0FF;
+  background-color: var(--secondary-color);
 }
 
 .banner a[type=logout] {
@@ -50,7 +55,7 @@ body {
   margin-bottom: 0vw;
   margin-right: .1vw;
   font-size: 2.25vw;
-  background-color: #0FF;
+  background-color: var(--secondary-color);
   text-decoration: none;
   color: #000;
 }
@@ -62,7 +67,7 @@ body {
   margin-bottom: .5vw;
   margin-right: 15vw;
   font-size: 2.25vw;
-  background-color: #0FF;
+  background-color: var(--secondary-color);
   text-decoration: none;
   color: #000;
 }
@@ -71,7 +76,7 @@ body {
   margin-left: 15vw;
   margin-right: 15vw;
   overflow: hidden;
-  background-color: #FFF;
+  background-color: var(--accent-color);
   color: #000;
 
 }
@@ -116,7 +121,7 @@ body {
   color: #ff0000;
 }
 .topnav a:hover[name=dashboard] {
-  color: #888800;
+  color: #ffff00;
 }
 .topnav a:hover[name=account] {
   color: #ff5500;
@@ -135,7 +140,7 @@ body {
   color: #ff0000;
 }
 .topnav a.active[name=dashboard] {
-  color: #888800;
+  color: #ffff00;
 }
 .topnav a.active[name=account] {
   color: #ff5500;
@@ -175,7 +180,7 @@ margin-right: 20vw;
 .data{
   margin-left: 15vw;
   margin-right: 15vw;
-  background-color: #FFF;
+  background-color: var(--secondary-color);
   font-size: 1vw;
 }
 
@@ -189,12 +194,12 @@ margin-right: 20vw;
 .data_left {
   float: left;
   width: 12vw;
-  background-color: #00FFFF;
+  background-color: var(--sidebar-color);
 }
 .data_left a{
   float: left;
   color: #000;
-  background-color: #00FFFF;
+  background-color: var(--sidebar-color);
   text-align: justify;
   padding-left: 0vw;
   padding-top: .5vw ;
@@ -257,12 +262,12 @@ margin-right: 20vw;
   height: 7.5vw;
   font-size: .75vw;
   border-radius: .25vw;
-  border: .3vw solid #0FF;
+  border: .3vw solid var(--accent-color);
 }
 .instance_right{
   width: 12vw;
   height: 7vw;
-  background-color: #EEE;
+  background-color: var(--secondary-color);
 }
 
 .instance_left{
