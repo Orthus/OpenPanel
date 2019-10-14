@@ -93,9 +93,8 @@ passport.deserializeUser(function (id, done) {
   });
 });
 
+
 //Site
-//Gets
-//app.get('/favicon.ico', (req, res) => res.status(204));
 // welcome page
 app.get('/', function (req, res) {
   active = "Home";
@@ -114,6 +113,8 @@ app.get('/', function (req, res) {
   res.render('template', {username: displayname,profile_pic: profile,authed: req.isAuthenticated(), content:'index', path:'home', result: null, error: null, active: active});
 });
 
+
+// login and register
 app.get('/login', loggedOut, function (req, res) {
   active = "Account";
   let displayname;
@@ -127,6 +128,7 @@ app.get('/register', loggedOut, function (req, res) {
   displayname="null";
   res.render('template', {authed: req.isAuthenticated(), content:'register', path:'home', username: displayname, result: null, error: null, active: active});
 });
+
 
 // home
 app.get('/home/:page', loggedIn, function (req, res) {
@@ -154,6 +156,8 @@ app.get('/about', function (req, res) {
   }
   res.render('template', {authed: req.isAuthenticated(), content:'index', path:'about',username: displayname, result: null, error: null, active: active});
 });
+
+
 // Settings
 app.get('/settings', loggedIn, function (req, res) {
   active = "Settings";
@@ -165,8 +169,9 @@ app.get('/settings/:page', loggedIn, function (req, res) {
   profile = user_model(req.user.id);
   res.render('template', {authed: req.isAuthenticated(), content:req.params.page, path:'settings', username: req.user.username, id: req.user.id, result: null, error: null, active: active});
 });
-// dashboard
 
+
+// dashboard
 app.get('/dashboard', loggedIn, function (req, res) {
   active = "Dashboard";
   profile = user_model(req.user.id);
@@ -181,6 +186,8 @@ app.get('/dashboard/:page', loggedIn, function (req, res) {
   profile = user_model(req.user.id);
   res.render('template', {authed: req.isAuthenticated(), content:'index', page:req.params.page, path:'dashboard', username: req.user.username, id: req.user.id, result: null, error: null, active: active});
 });
+
+
 //Instance Page
 app.get('/Server/:Server_ID', loggedIn, function (req, res) {
   active = "Dashboard";
@@ -191,22 +198,15 @@ app.get('/Server/:Server_ID', loggedIn, function (req, res) {
     res.render('template', {authed: req.isAuthenticated(), content:'server_page', path:'Server', username: req.user.username, id: req.user.id, result: Filtered_data, error: null, active: active});    }).catch(err => {
   });;
 });
-// Create Server
-app.get('/submit', loggedIn, function (req, res) {
-  res.render('index', {authed: req.isAuthenticated(), result: null, error: null});
-});
-// navigation search
-app.get('/TMR/', function (req, res) {
-  let lookup = search(req.query.Server_ID).then(data => {
-  res.render('TMR', {authed: req.isAuthenticated(), result: JSON.parse(data), error: null});
-  }).catch(err => {
-  });;
-});
+
+
 // logout
 app.get('/logout', function(req, res){
   req.logout();
   res.redirect('/');
 });
+
+
 // APP Posts
 //user
 app.post('/login',
@@ -256,20 +256,21 @@ app.post('/create_Server', function (req,res) {
   let backup = req.body.Backup_Value;
   let send = query(game, slots, ip, hostname, name, owner, ram, storage, backup);
   res.redirect('/dashboard');
-  // body...
 })
+
+
 //API
+
+
 //Gets
-app.get('/lookup/:Server_ID', function (req, res) {
-  let lookup = search(req.params.Server_ID).then(data => {
-  res.json(JSON.parse(data));
-  }).catch(err => {
-  });;
-});
+
+
+
 //Posts
 
 
 // error pages
+
 app.use(function(req, res) {
   res.status(404);
   res.render('template', {authed: req.isAuthenticated(), content:'404', path:'errors', username: displayname, result: null, error: null, active: 'null'});
@@ -279,7 +280,9 @@ app.use(function(error, req, res, next) {
   res.status(500);
   res.render('template', {authed: req.isAuthenticated(), content:'500', path:'errors', username: displayname, result: null, error: null, active: 'null'});
 });
+
 // Functions
+
 function query(game, slots, ip, hostname, name, owner, ram, storage, backup){
   return new Promise ( (resolve, reject) => {
 	  r.table("servers").insert({
@@ -301,16 +304,6 @@ function query(game, slots, ip, hostname, name, owner, ram, storage, backup){
   })};
 
 
-function search(Server_ID){
-  return new Promise ( (resolve, reject) => {
-    r.table('servers').get(Server_ID).run(connection, function(err, cursor) {
-    if (err) throw err;
-      var lookup = JSON.stringify(cursor, null, 2);
-      return resolve(lookup);
-    });
-})};
-
-
 function list_all(id){
   return new Promise ( (resolve, reject) => {
     r.table('servers').filter(function(row) {
@@ -327,17 +320,9 @@ function user_model(id){
   profile = "../images/avatars/" + id + ".png";
   return profile;
 }
-// export
-function toCSV(json) {
-  json = Object.values(json);
-  var csv = "";
-  var keys = (json[0] && Object.keys(json[0])) || [];
-  csv += keys.join(',') + '\n';
-  for (var line of json) {
-    csv += keys.map(key => line[key]).join(',') + '\n';
-  }
-  return csv;
-}
+
+// User
+
 // Authentication
 function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) return next();
@@ -372,7 +357,7 @@ else {
       return "null";
     }
 }
-// User
+
 function adduser(newusername, newpassword) {
   r.connect( {host: 'localhost', port: 28015}, function(err, conn) {
       if (err) throw err;
