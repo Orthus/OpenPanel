@@ -3,13 +3,13 @@
 	<br>
 	<p>Welcome to the account page. Here you can change your account settings 
 	<br>
-	<br>Hey <%= username %>, What would you like to change today?</p>
+	<br>Hey <%= user.username %>, What would you like to change today?</p>
         <div class="row">
         <div class="account_left">
 	<label>Username:</label>
         <br>
         <br>
-        <input type="text" name="newusername" placeholder=<%= username %> />
+        <input type="text" name="newusername" placeholder=<%= user.username %> />
         <br>
         <br>
         <label>Email:</label>
@@ -37,7 +37,7 @@
 <div class="account_right">
 		<label style="text-align: center">Profile Image</label>
 		<br>
-		<img src=<%= profile %> alt="Logo" height=15% width=15% align=center style="margin-top: 5%">
+		<img src=<%= user.profile %> alt="Logo" height=15% width=15% align=center style="margin-top: 5%">
 		<form action="fileupload" method="post" enctype="multipart/form-data">
 		<input type="file" name="filetoupload"><br>
 		<input type="submit">

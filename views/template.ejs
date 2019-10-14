@@ -5,7 +5,8 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 		<title>Openpanel</title>
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-		<link href="/css/style.css" rel="stylesheet" type="text/css">
+		<link href="/css/light.css" rel="stylesheet" type="text/css">
+		<link href= "<% user.theme %>" rel="stylesheet" type="text/css">
 		<link rel="shortcut icon" href="../images/favicon.png" />
 		<link rel="stylesheet" href="../icofont/icofont.min.css">
 		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
@@ -18,7 +19,7 @@
 		<img src="../images/logo.png" alt="Logo" height=12% width=12% align=left float=left style="margin-top: .7% ;margin-left: 15%">
 		<%if(login){%>
 		<a href="/logout" type="logout" style="margin-right: 15%"><i class="icofont-logout"></i></a>
-		<a href="/account"><img src= "<%= profile %>" alt="Logo" height=5% width=5% align=right float=right ></a>
+		<a href="/account"><img src= "<%= user.profile %>" alt="Logo" height=5% width=5% align=right float=right ></a>
 		
 		<%}else{%>
 		<a href="/login" type="login"><i class="icofont-login"></i></a>

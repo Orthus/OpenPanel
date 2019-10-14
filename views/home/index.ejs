@@ -2,8 +2,8 @@
 		<br>
 		<p>Welcome to OpenPanel. The open source server hosting platform.</p>
 		<%if(login){%>
-		<p>Hey <%= username %> </p>
-		<p> <%= id %>
+		<p>Hey <%= user.username %> </p>
+		<p> <%= user %>
 		<%}else{%>
 		<p>You don't appear to be logged in.</p>
 		<p>Please Login or Register</p>
