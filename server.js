@@ -86,80 +86,45 @@ passport.deserializeUser(function (id, done) {
   });});});
 //Site
 app.get('/', function (req, res) {
-  if(req.isAuthenticated()){
-  page_processer(req.user.id,req.isAuthenticated(), "Home", "index", "index", "home", "null", req, res)
-  }else{
-  page_processer(null,req.isAuthenticated(), "Home", "index", "index", "home", "null", req, res)}
+  page_processer(req.isAuthenticated(), "Home", "index", "index", "home", "null", req, res);
 });
 // login and register
 app.get('/login', loggedOut, function (req, res) {
-  if(req.isAuthenticated()){
-  page_processer(req.user.id,req.isAuthenticated(), "Account", "login", "index", "home", "null", req, res)
-  }else{
-  page_processer(null,req.isAuthenticated(), "Account", "login", "index", "home", "null", req, res)
-}});
+  page_processer(req.isAuthenticated(), "Account", "login", "index", "home", "null", req, res);
+});
 app.get('/register', loggedOut, function (req, res) {
-  if(req.isAuthenticated()){
-  page_processer(req.user.id,req.isAuthenticated(), "Account", "register", "index", "home", "null", req, res)
-  }else{
-  page_processer(null,req.isAuthenticated(), "Account", "register", "index", "home", "null", req, res)
- }});
+  page_processer(req.isAuthenticated(), "Account", "register", "index", "home", "null", req, res);
+ });
 // home
 app.get('/home/:page', loggedIn, function (req, res) {
-  if(req.isAuthenticated()){
-  page_processer(req.user.id,req.isAuthenticated(), "home", req.params.page, "index", "home", "null", req, res)
-  }else{
-  page_processer(null,req.isAuthenticated(), "home", req.params.page, "index", "home", "null", req, res)
-}});
+  page_processer(req.isAuthenticated(), "home", req.params.page, "index", "home", "null", req, res);
+});
 //account
 app.get('/account', loggedIn, function (req, res) {
-  if(req.isAuthenticated()){
-  page_processer(req.user.id ,req.isAuthenticated(), "Account", "index", "index", "account", "null", req, res)
-  }else{
-  page_processer(null ,req.isAuthenticated(), "Account", "index", "index", "account", "null", req, res)
-}});
+  page_processer(req.isAuthenticated(), "Account", "index", "index", "account", "null", req, res);
+});
 //about
 app.get('/about', function (req, res) {
-  if(req.isAuthenticated()){
-  page_processer(req.user.id,req.isAuthenticated(), "About", "index", "index", "about", "null", req, res)
-  }else{
-  page_processer(null,req.isAuthenticated(), "About", "index", "index", "about", "null", req, res)
-}});
+  page_processer(req.isAuthenticated(), "About", "index", "index", "about", "null", req, res);
+});
 // Settings
 app.get('/settings', loggedIn, function (req, res) {
-  if(req.isAuthenticated()){
-  page_processer(req.user.id,req.isAuthenticated(), "Settings", "index", "index", "settings", "null", req, res)
-  }else{
-  page_processer(null,req.isAuthenticated(), "Settings", "index", "index", "settings", "null", req, res)
-}});
+  page_processer(req.isAuthenticated(), "Settings", "index", "index", "settings", "null", req, res);
+});
 app.get('/settings/:page', loggedIn, function (req, res) {
-  if(req.isAuthenticated()){
-  page_processer(req.user.id,req.isAuthenticated(), "Settings", "index", "index", "settings", "null", req, res)
-  }else{
-  page_processer(null,req.isAuthenticated(), "Settings", req.params.page, "index", "settings", "null", req, res)
-}});
+  page_processer(req.isAuthenticated(), "Settings", req.params.page, "index", "settings", "null", req, res)
+});
 // dashboard
 app.get('/dashboard', loggedIn, function (req, res) {
-  if(req.isAuthenticated()){
-  page_processer(req.user.id,req.isAuthenticated(), "Dashboard", "index", "overview", "dashboard", "null", req, res)
-  }else{
-  page_processer(null,req.isAuthenticated(), "Dashboard", "index", "overview", "dashboard", "null", req, res)
-}});
+  page_processer(req.isAuthenticated(), "Dashboard", "index", "overview", "dashboard", "null", req, res);
+});
 app.get('/dashboard/:page', loggedIn, function (req, res) {
-  if(req.isAuthenticated()){
-  page_processer(req.user.id,req.isAuthenticated(), "Dashboard", "index", req.params.page, "dashboard", "null", req, res)
-  }else{
-  page_processer(null,req.isAuthenticated(), "Dashboard", "index", req.params.page, "dashboard", "null", req, res)
-}});
+  page_processer(req.isAuthenticated(), "Dashboard", "index", req.params.page, "dashboard", "null", req, res)
+});
 //Instance Page
 app.get('/Server/:Server_ID', loggedIn, function (req, res) {
-  if(req.isAuthenticated()){
-  console.log(req.params.Server_ID);
-  page_processer(req.user.id,req.isAuthenticated(), "Dashboard", "server_page", "server_page", "server", req.params.Server_ID, req, res)
-  }else{
-  page_processer(null,req.isAuthenticated(), "Dashboard", "server_page", "server_page", "server", req.params.Server_ID, req, res)
-}});
-//userid ,auth , active, passed_content, passed_page, passed_path, serverid, req, res
+  page_processer(req.isAuthenticated(), "Dashboard", "server_page", req.params.page, "server", req.params.page, req, res)
+});
 // logout
 app.get('/logout', function(req, res){
   req.logout();
@@ -177,18 +142,8 @@ app.post('/login',
       res.redirect('/dashboard');
 });
 app.post('/register', function (req, res) {
-  let newusername = req.body.newusername;
-  let newpassword = req.body.newpassword
   adduser(req.body.newusername, req.body.newpassword);
-  active = "Home";
-  let displayname;
-  if(req.isAuthenticated()){
-    displayname=req.user.username;
-  }
-  else{
-    displayname="null";
-  }
-  res.render('template', {authed: req.isAuthenticated(), content:'register', path:'home', username: displayname, result: null, error: null, active: active});
+  res.render('template', {authed: req.isAuthenticated(), content:'register', path:'home', result: null, error: null, active: "Home"});
 });
 // server
 app.post('/settings', function (req, res) {
@@ -226,9 +181,10 @@ app.use(function(error, req, res, next) {
   res.render('template', {authed: req.isAuthenticated(), content:'500', path:'errors', username: displayname, result: null, error: null, active: 'null'});
 });
 // Functions
-function page_processer(userid ,auth , active, passed_content, passed_page, passed_path, serverid, req, res){
+function page_processer(auth , active, passed_content, passed_page, passed_path, serverid, req, res){
+  console.log(auth);
   if(auth){
-    let lookup = data_model("users", userid).then(data => {
+    let lookup = data_model("users", req.user.id).then(data => {
     let user_obj = JSON.parse(data);
     let list = list_servers(req.user.id).then(data => {
     let Filtered_data = data;
@@ -239,13 +195,10 @@ function page_processer(userid ,auth , active, passed_content, passed_page, pass
   else{
     let db_object;
     let stringed_object;
-    db_object = {theme:"/css/light.css"};
+    db_object = {theme:"/css/dark.css", id:"null", profile:"../images/avatars/profile.png", username:"null"};
     stringed_object = JSON.parse(JSON.stringify(db_object, null, 2))
-    let id = "null";
     console.log(stringed_object.theme);
     let Filtered_data = "null";
-    let displayname= "null";
-    let profile = "../images/avatars/" + id + ".png";
     res.render('template', {authed: auth, content: passed_content, page: passed_page, path: passed_path, user: stringed_object, result: Filtered_data, active: active});
   }};
 
@@ -329,18 +282,12 @@ function loggedOut(req, res, next) {
       next();
 }}
 
-function nameCheck(req, res) {
-if (req.isAuthenticated()) return req.user.username;
-else {
-  return "null";
-}}
-
 function adduser(newusername, newpassword) {
             r.db(config.DB_Name).table('users').insert({
             username: newusername,
             password: bcrypt.hashSync(newpassword),
             roll: 0,
-            theme: "/css/light.css"
+            theme: "dark"
           }).run(connection, function(err, res){});
 }
 

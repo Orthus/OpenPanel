@@ -284,7 +284,14 @@ p{
   float: left;
   width: 35vw;
 }
-
+.panel_left{
+  margin-left: 30vw; 
+  margin-top: 20vw;
+}
+.panel_right{
+  margin-right: 30vw; 
+  margin-top: 20vw;
+}
 
 .row:after {
   content: "";
