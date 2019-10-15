@@ -157,16 +157,7 @@ app.post('/update/:Server_ID', function (req, res) {
 });
 
 app.post('/create_Server', function (req,res) {
-  let game = req.body.Game;
-  let slots = req.body.Slots;
-  let ip = req.body.IP_Address;
-  let hostname = req.body.Hostname;
-  let name = req.body.ServerName;
-  let owner = req.user.id;
-  let ram = req.body.RAM_Value ;
-  let storage = req.body.Storage_Value;
-  let backup = req.body.Backup_Value;
-  let send = instance_init(game, slots, ip, hostname, name, owner, ram, storage, backup);
+  let send = instance_init(req.body.Game, req.body.Slots, req.body.IP_Address, req.body.Hostname, req.body.ServerName, req.user.id, req.body.RAM_Value, req.body.Storage_Value, req.body.Backup_Value);
   res.redirect('/dashboard');
 })
 //API
@@ -182,13 +173,11 @@ app.use(function(error, req, res, next) {
 });
 // Functions
 function page_processer(auth , active, passed_content, passed_page, passed_path, serverid, req, res){
-  console.log(auth);
   if(auth){
     let lookup = data_model("users", req.user.id).then(data => {
     let user_obj = JSON.parse(data);
     let list = list_servers(req.user.id).then(data => {
     let Filtered_data = data;
-    console.log(user_obj.theme);
     res.render('template', {authed: auth, content: passed_content, page: passed_page, path: passed_path, user: user_obj, result: Filtered_data, active: active});
     }).catch(err => {
   });})}
@@ -197,25 +186,15 @@ function page_processer(auth , active, passed_content, passed_page, passed_path,
     let stringed_object;
     db_object = {theme:"/css/dark.css", id:"null", profile:"../images/avatars/profile.png", username:"null"};
     stringed_object = JSON.parse(JSON.stringify(db_object, null, 2))
-    console.log(stringed_object.theme);
     let Filtered_data = "null";
     res.render('template', {authed: auth, content: passed_content, page: passed_page, path: passed_path, user: stringed_object, result: Filtered_data, active: active});
   }};
 
 function instance_init(game, slots, ip, hostname, name, owner, ram, storage, backup){
   return new Promise ( (resolve, reject) => {
-	  r.table("servers").insert({
-      game: game,
-      slots: slots,
-      ip: ip,
-      hostname: hostname,
-      name: name,
-      owner: owner,
-      ram: ram,
-      storage: storage,
-      backup: backup,
-      status: "OFFLINE",
-}).run(connection, function(err, cursor){
+    let permissions = [owner];
+	  r.table("servers").insert({game: game, slots: slots, ip: ip, hostname: hostname, name: name, owner: owner, ram: ram, storage: storage, backup: backup, status: "OFFLINE", permissions: permissions})
+    .run(connection, function(err, cursor){
 		if (err) {
 			return reject(err);
 }});})};
@@ -228,17 +207,7 @@ function list_servers(id){
       let lookup = cursor.toArray();
       return resolve(lookup);
 });})};
-
-function server_model(user, server){
-  return new Promise ( (resolve, reject) => {
-  r.table('servers').filter('"' + server + '"').run(connection, function(err, cursor) {
-  let db_server = JSON.stringify(cursor, null, 2);
-  if (req.isAuthenticated()) return next();
-  if (req.method == 'GET') req.session.returnTo = req.originalUrl;
-  res.redirect('/');
-  return resolve(db_server);
-});})};
-
+  
 function data_model(table, id){
   return new Promise ( (resolve, reject) => {
   r.table(table).get(id).run(connection, function(err, cursor) {
@@ -258,18 +227,6 @@ function data_model(table, id){
     }
 });})};
 // Authentication
-function ensureAuthenticated(req, res) {
-  if (req.isAuthenticated()) return next();
-  if (req.method == 'GET') req.session.returnTo = req.originalUrl;
-  res.redirect('/');
-}
-
-function ensureUnauthenticated(req, res, next) {
-  if (!req.isAuthenticated()) return next();
-  if (req.method == 'GET') req.session.returnTo = req.originalUrl;
-  res.redirect('/');
-}
-
 function loggedIn(req, res, next) {
     if (req.user) {next();
     } else {
@@ -289,11 +246,4 @@ function adduser(newusername, newpassword) {
             roll: 0,
             theme: "dark"
           }).run(connection, function(err, res){});
-}
-
-function displayname(username){
-  let displayname = username;
-  let defaultPhrase = "Unknown User";
-  let phrase = (typeof displayname === "undefined" ? defaultPhrase : displayname);
-  return displayname;
 }
