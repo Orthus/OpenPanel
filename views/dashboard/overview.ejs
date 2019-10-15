@@ -1,47 +1,47 @@
 <div class="instance_container">
 
     <div class="box">
-        <% for(var i=0; i < result.length; i++) { %>
-        	<a href ="<%= '/server/' + result[i].id %>">
+        <% for(var i=0; i < server.length; i++) { %>
+        	<a href ="<%= '/server/' + server[i].id %>">
    			<div class="instance">
    				<div class=instance_left>
-   					<img src="<%= '../images/game_icons/' + result[i].game + '.png' %>" alt="<%= i %>" height=100% width=100% align=left float=left style="margin-right: 15%">
+   					<img src="<%= '../images/game_icons/' + server[i].game + '.png' %>" alt="<%= i %>" height=100% width=100% align=left float=left style="margin-right: 15%">
 
    				</div>
-				<div class=instance_right id= "<%=result[i].id %>" style="background: #0C0 ; color: #000">
+				<div class=instance_right id= "<%=server[i].id %>" style="background: #0C0 ; color: #000">
 				<script>
-					if("<%=result[i].status %>" == "ONLINE"){
-						document.getElementById("<%=result[i].id %>").style.background = "#0C0";
-					}else if("<%=result[i].status %>" == "STARTING"){
-						document.getElementById("<%=result[i].id %>").style.background = "#CC0";
-					}else if("<%=result[i].status %>" == "OFFLINE"){
-						document.getElementById("<%=result[i].id %>").style.background = "#C00";
-						document.getElementById("<%=result[i].id %>").style.color = "#EEE";
+					if("<%=server[i].status %>" == "ONLINE"){
+						document.getElementById("<%=server[i].id %>").style.background = "#0C0";
+					}else if("<%=server[i].status %>" == "STARTING"){
+						document.getElementById("<%=server[i].id %>").style.background = "#CC0";
+					}else if("<%=server[i].status %>" == "OFFLINE"){
+						document.getElementById("<%=server[i].id %>").style.background = "#C00";
+						document.getElementById("<%=server[i].id %>").style.color = "#EEE";
 					}else{
-						document.getElementById("<%=result[i].id %>").style.background = "#000";
-						document.getElementById("<%=result[i].id %>").style.color = "#FFF";
+						document.getElementById("<%=server[i].id %>").style.background = "#000";
+						document.getElementById("<%=server[i].id %>").style.color = "#FFF";
 					}
 				</script>
         			<p>
-        				Status: <%= result[i].status %>
+        				Status: <%= server[i].status %>
         			</p>
         			<p>
-        				Name: <%= result[i].name %>
+        				Name: <%= server[i].name %>
         			</p>
         			<p>
-        				Host:  <%= result[i].hostname %>
+        				Host:  <%= server[i].hostname %>
         			</p>
         			<p>
-        				IP: <%= result[i].ip %>
+        				IP: <%= server[i].ip %>
         			</p>
         			<p>
         				CPU: 0%
-        				RAM: <%= result[i].ram %>
-        				Slots: <%= result[i].slots %>
+        				RAM: <%= server[i].ram %>
+        				Slots: <%= server[i].slots %>
         			</p>
     				<p>
-    				Storage: <%= result[i].storage %>
-        			Backup: <%= result[i].backup %>
+    				Storage: <%= server[i].storage %>
+        			Backup: <%= server[i].backup %>
         			</p>
         		</div>
 	        </div>

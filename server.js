@@ -61,11 +61,11 @@ passport.use(new local(
     r.db(config.DB_Name).table('users').filter(r.row('username').eq(username)).run(connection, function (err, user) {
       if (err) { return done(err); }
       if (!user) { return done(null, false); }
-      user.toArray(function(err, result) {
+      user.toArray(function(err, server) {
           if (err) throw err;
-          if (result.length == 0) { return done(null, false); }
-          if (!bcrypt.compareSync(password, result[0].password)) { return done(null, false); }
-          return done(null, result[0]);
+          if (server.length == 0) { return done(null, false); }
+          if (!bcrypt.compareSync(password, server[0].password)) { return done(null, false); }
+          return done(null, server[0]);
       });
     });
   }
@@ -77,9 +77,9 @@ passport.deserializeUser(function (id, done) {
   r.db(config.DB_Name).table('users').filter(r.row('id').eq(id)).run(connection, function(err, user) {
     if (err) { return done(err); }
     if (!user) { return done(null, false); }
-    user.toArray(function(err, result) {
+    user.toArray(function(err, server) {
         if (err) throw err;
-        return done(null, result[0]);
+        return done(null, server[0]);
   });});});
 //
 app.get('/', function (req, res) {
@@ -106,8 +106,8 @@ app.get('/dashboard', loggedIn, function (req, res) {
 app.get('/dashboard/:page', loggedIn, function (req, res) {
   page_processer(req.isAuthenticated(), "Dashboard", "index", req.params.page, "dashboard", "null", req, res)
 });
-app.get('/server/:Server_ID', loggedIn, function (req, res) {
-  page_processer(req.isAuthenticated(), "Dashboard", "server_page", req.params.page, "server", req.params.page, req, res)
+app.get('/server/:server_id', loggedIn, function (req, res) {
+  page_processer(req.isAuthenticated(), "Dashboard", "server_page", req.params.server_id, "server", req.params.server_id, req, res)
 });
 app.get('/logout', function(req, res){
   req.logout();
@@ -124,7 +124,7 @@ app.post('/login',
 });
 app.post('/register', function (req, res) {
   adduser(req.body.newusername, req.body.newpassword);
-  res.render('template', {authed: req.isAuthenticated(), content:'register', path:'home', result: null, error: null, active: "Home"});
+  res.render('template', {authed: req.isAuthenticated(), content:'register', path:'home', server: null, error: null, active: "Home"});
 });
 app.post('/settings', function (req, res) {
   let send = update_settings();
@@ -132,7 +132,7 @@ app.post('/settings', function (req, res) {
 });
 app.post('/update/:Server_ID', function (req, res) {
   let send = update();
-  res.render('index', {result: null, error:null});
+  res.render('index', {server: null, error:null});
 });
 app.post('/create_Server', function (req,res) {
   let send = instance_init(req.body.Game, req.body.Slots, req.body.IP_Address, req.body.Hostname, req.body.ServerName, req.user.id, req.body.RAM_Value, req.body.Storage_Value, req.body.Backup_Value);
@@ -140,26 +140,28 @@ app.post('/create_Server', function (req,res) {
 })
 app.use(function(req, res) {
   res.status(404);
-  res.render('template', {authed: req.isAuthenticated(), content:'404', path:'errors', username: displayname, result: null, error: null, active: 'null'});
+  res.render('template', {authed: req.isAuthenticated(), content:'404', path:'errors', server: null, error: null, active: 'null'});
 });
 app.use(function(error, req, res, next) {
   console.log(error);
   res.status(500);
-  res.render('template', {authed: req.isAuthenticated(), content:'500', path:'errors', username: displayname, result: null, error: null, active: 'null'});
+  res.render('template', {authed: req.isAuthenticated(), content:'500', path:'errors', server: null, error: null, active: 'null'});
 });
 // Functions
 function page_processer(auth , active, passed_content, passed_page, passed_path, serverid, req, res){
   if(auth){
-    let lookup = data_model("users", req.user.id).then(data => {
+    let user_lookup = data_model("users", req.user.id).then(data => {
     let user_obj = JSON.parse(data);
     let list = list_servers(req.user.id).then(data => {
-    res.render('template', {authed: auth, content: passed_content, page: passed_page, path: passed_path, user: user_obj, result: data, active: active});
-    }).catch(err => {
-  });})}
+    let server_list = data;
+    server_lookup = data_model("servers", serverid).then(data => {
+    server_obj = JSON.parse(data);
+    res.render('template', {authed: auth, content: passed_content, page: passed_page, path: passed_path, user: user_obj, server: server_list, server_info: server_obj, active: active});
+    }).catch(err => {});})})}
   else{
     let db_object = {theme:"/css/dark.css", id:"null", profile:"../images/avatars/profile.png", username:"null"};
     let stringed_object = JSON.parse(JSON.stringify(db_object, null, 2))
-    res.render('template', {authed: auth, content: passed_content, page: passed_page, path: passed_path, user: stringed_object, result: "null", active: active});
+    res.render('template', {authed: auth, content: passed_content, page: passed_page, path: passed_path, user: stringed_object, server: "null", active: active});
   }};
 function instance_init(game, slots, ip, hostname, name, owner, ram, storage, backup){
   return new Promise ( (resolve, reject) => {
@@ -185,10 +187,10 @@ function data_model(table, id){
     if (table == "users"){
       let profile = "../images/avatars/" + id + ".png";
       db_object['profile'] = profile;
-      stringed_object = JSON.stringify(db_object, null, 2)
-      return resolve(stringed_object);
     } 
-    else{return resolve(db_object);}
+    else{}
+    stringed_object = JSON.stringify(db_object, null, 2)
+    return resolve(stringed_object);
 });})};
 function loggedIn(req, res, next) {
     if (req.user) {next();
