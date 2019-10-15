@@ -3,22 +3,20 @@ const app = express();
 const bodyParser = require('body-parser');
 const r = require('rethinkdb');
 const path = require('path');
-var flash = require('connect-flash');
-var bcrypt = require('bcrypt-nodejs');
+const flash = require('connect-flash');
+const bcrypt = require('bcrypt-nodejs');
 var passport = require('passport');
-var local = require('passport-local').Strategy;
+const local = require('passport-local').Strategy;
 const exec = require('child_process').exec;
 const args = process.argv;
 const config = require(__dirname + '/config.json');
-var fs = require('fs');
-var util = require('util');
-var http = require('http');
-var inspect = require('util').inspect;
-var fileUpload = require('express-fileupload')
-var Busboy = require('busboy');
-var log_file = fs.createWriteStream(__dirname + '/debug.log', {flags : 'w'});
-var log_stdout = process.stdout;
-var favicon = require('serve-favicon');
+const fs = require('fs');
+const util = require('util');
+const http = require('http');
+const fileUpload = require('express-fileupload')
+const log_file = fs.createWriteStream(__dirname + '/debug.log', {flags : 'w'});
+const log_stdout = process.stdout;
+const favicon = require('serve-favicon');
 console.log = function(d) { //
   log_file.write(util.format(d) + '\n');
   log_stdout.write(util.format(d) + '\n');
@@ -46,9 +44,8 @@ app.use(function (req, res, next) {
   res.locals.login = req.isAuthenticated();
   next();
 });
-// Config
-var webport = config.Port;
-var address = config.IP_Address;
+const webport = config.Port;
+const address = config.IP_Address;
 var connection = null;
 r.connect( {host: config.DB_Address, port: config.DB_Port, db: config.DB_Name}, function(err, conn) {
     if (err) throw err;
@@ -84,59 +81,43 @@ passport.deserializeUser(function (id, done) {
         if (err) throw err;
         return done(null, result[0]);
   });});});
-//Site
+//
 app.get('/', function (req, res) {
   page_processer(req.isAuthenticated(), "Home", "index", "index", "home", "null", req, res);
 });
-// login and register
 app.get('/login', loggedOut, function (req, res) {
   page_processer(req.isAuthenticated(), "Account", "login", "index", "home", "null", req, res);
 });
 app.get('/register', loggedOut, function (req, res) {
   page_processer(req.isAuthenticated(), "Account", "register", "index", "home", "null", req, res);
  });
-// home
-app.get('/home/:page', loggedIn, function (req, res) {
-  page_processer(req.isAuthenticated(), "home", req.params.page, "index", "home", "null", req, res);
-});
-//account
 app.get('/account', loggedIn, function (req, res) {
   page_processer(req.isAuthenticated(), "Account", "index", "index", "account", "null", req, res);
 });
-//about
 app.get('/about', function (req, res) {
   page_processer(req.isAuthenticated(), "About", "index", "index", "about", "null", req, res);
 });
-// Settings
 app.get('/settings', loggedIn, function (req, res) {
   page_processer(req.isAuthenticated(), "Settings", "index", "index", "settings", "null", req, res);
 });
-app.get('/settings/:page', loggedIn, function (req, res) {
-  page_processer(req.isAuthenticated(), "Settings", req.params.page, "index", "settings", "null", req, res)
-});
-// dashboard
 app.get('/dashboard', loggedIn, function (req, res) {
   page_processer(req.isAuthenticated(), "Dashboard", "index", "overview", "dashboard", "null", req, res);
 });
 app.get('/dashboard/:page', loggedIn, function (req, res) {
   page_processer(req.isAuthenticated(), "Dashboard", "index", req.params.page, "dashboard", "null", req, res)
 });
-//Instance Page
-app.get('/Server/:Server_ID', loggedIn, function (req, res) {
+app.get('/server/:Server_ID', loggedIn, function (req, res) {
   page_processer(req.isAuthenticated(), "Dashboard", "server_page", req.params.page, "server", req.params.page, req, res)
 });
-// logout
 app.get('/logout', function(req, res){
   req.logout();
   res.redirect('/');
 });
-// APP Posts
-//user
 app.post('/login',
   passport.authenticate('local', { failureRedirect: '/login',
       failureFlash: true }), function(req, res) {
         if (req.body.remember) {
-          req.session.cookie.maxAge = 30 * 24 * 60 * 60 * 1000; // Cookie expires after 30 days
+          req.session.cookie.maxAge = 1 * 24 * 60 * 60 * 1000; // Cookie expires after 1 day
         } else {
           req.session.cookie.expires = false;}
       res.redirect('/dashboard');
@@ -145,23 +126,18 @@ app.post('/register', function (req, res) {
   adduser(req.body.newusername, req.body.newpassword);
   res.render('template', {authed: req.isAuthenticated(), content:'register', path:'home', result: null, error: null, active: "Home"});
 });
-// server
 app.post('/settings', function (req, res) {
   let send = update_settings();
   res.redirect('/settings');
 });
-
 app.post('/update/:Server_ID', function (req, res) {
   let send = update();
   res.render('index', {result: null, error:null});
 });
-
 app.post('/create_Server', function (req,res) {
   let send = instance_init(req.body.Game, req.body.Slots, req.body.IP_Address, req.body.Hostname, req.body.ServerName, req.user.id, req.body.RAM_Value, req.body.Storage_Value, req.body.Backup_Value);
   res.redirect('/dashboard');
 })
-//API
-//Error Pages
 app.use(function(req, res) {
   res.status(404);
   res.render('template', {authed: req.isAuthenticated(), content:'404', path:'errors', username: displayname, result: null, error: null, active: 'null'});
@@ -177,19 +153,14 @@ function page_processer(auth , active, passed_content, passed_page, passed_path,
     let lookup = data_model("users", req.user.id).then(data => {
     let user_obj = JSON.parse(data);
     let list = list_servers(req.user.id).then(data => {
-    let Filtered_data = data;
-    res.render('template', {authed: auth, content: passed_content, page: passed_page, path: passed_path, user: user_obj, result: Filtered_data, active: active});
+    res.render('template', {authed: auth, content: passed_content, page: passed_page, path: passed_path, user: user_obj, result: data, active: active});
     }).catch(err => {
   });})}
   else{
-    let db_object;
-    let stringed_object;
-    db_object = {theme:"/css/dark.css", id:"null", profile:"../images/avatars/profile.png", username:"null"};
-    stringed_object = JSON.parse(JSON.stringify(db_object, null, 2))
-    let Filtered_data = "null";
-    res.render('template', {authed: auth, content: passed_content, page: passed_page, path: passed_path, user: stringed_object, result: Filtered_data, active: active});
+    let db_object = {theme:"/css/dark.css", id:"null", profile:"../images/avatars/profile.png", username:"null"};
+    let stringed_object = JSON.parse(JSON.stringify(db_object, null, 2))
+    res.render('template', {authed: auth, content: passed_content, page: passed_page, path: passed_path, user: stringed_object, result: "null", active: active});
   }};
-
 function instance_init(game, slots, ip, hostname, name, owner, ram, storage, backup){
   return new Promise ( (resolve, reject) => {
     let permissions = [owner];
@@ -198,7 +169,6 @@ function instance_init(game, slots, ip, hostname, name, owner, ram, storage, bac
 		if (err) {
 			return reject(err);
 }});})};
-
 function list_servers(id){
   return new Promise ( (resolve, reject) => {
     r.table('servers').filter(function(row) {
@@ -207,38 +177,29 @@ function list_servers(id){
       let lookup = cursor.toArray();
       return resolve(lookup);
 });})};
-  
 function data_model(table, id){
   return new Promise ( (resolve, reject) => {
   r.table(table).get(id).run(connection, function(err, cursor) {
     if (err) throw err;
     let db_object = cursor;
     if (table == "users"){
-      let profile;
-      value = "../images/avatars/" + id + ".png";
-      db_object['profile'] = value;
+      let profile = "../images/avatars/" + id + ".png";
+      db_object['profile'] = profile;
       stringed_object = JSON.stringify(db_object, null, 2)
       return resolve(stringed_object);
     } 
-    else if (table == "servers"){return resolve(db_object);
-    }
-    else{
-      return resolve(db_object); 
-    }
+    else{return resolve(db_object);}
 });})};
-// Authentication
 function loggedIn(req, res, next) {
     if (req.user) {next();
     } else {
         res.redirect('/login');
 }}
-
 function loggedOut(req, res, next) {
     if (req.user) { res.redirect('/');
     } else {
       next();
 }}
-
 function adduser(newusername, newpassword) {
             r.db(config.DB_Name).table('users').insert({
             username: newusername,
