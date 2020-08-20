@@ -14,7 +14,7 @@
   "license": "MIT",
   "bugs": {},
   "dependencies": {
-    "bcrypt": "^3.0.6",
+    "bcrypt": "^5.0.0",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.19.0",
     "bootstrap": "^4.3.1",
